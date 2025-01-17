@@ -17,12 +17,13 @@ class RegisterProductTest {
     @Test
     @DisplayName("프로덕트를 등록한다")
     void registerProduct()  {
-        RegisterProduct.Request request = new RegisterProduct.Request();
+        RegisterProduct.Request request = new RegisterProduct.Request( 1L, "productName", "productDescription");
     }
 
     private static class RegisterProduct {
 
-        public record Request() {
+        public record Request(Long productId, String productName, String productDescription) {
+
         }
     }
 }
