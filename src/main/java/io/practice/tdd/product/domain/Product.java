@@ -28,7 +28,7 @@ public class Product {
 
     @Builder
     private Product(final String productName,
-                   final String productDescription) {
+                    final String productDescription) {
 
         validateConstructor(productName, productDescription);
         this.productName = productName;
@@ -39,9 +39,5 @@ public class Product {
     private void validateConstructor(final String productName, final String productDescription) {
         Assert.hasText(productName, "제품 이름은 필수입니다.");
         Assert.hasText(productDescription, "제품 설명은 필수입니다.");
-    }
-
-    public void assignNo(final Long productNo) {
-        this.productNo = productNo;
     }
 }
