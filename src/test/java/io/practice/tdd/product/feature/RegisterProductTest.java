@@ -1,12 +1,9 @@
 package io.practice.tdd.product.feature;
 
+import io.practice.tdd.product.domain.RegisterProduct;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.util.Assert;
-
-import java.util.HashMap;
-import java.util.Map;
 
 class RegisterProductTest {
 
@@ -28,66 +25,5 @@ class RegisterProductTest {
         RegisterProduct.Request request = new RegisterProduct.Request(productName, productDescription);
 
         registerProduct.request(request);
-    }
-
-    private static class RegisterProduct {
-
-        private String productName = "productName";
-        private String productDescription = "productDescription";
-        private RegisterRepository registerRepository;
-
-        public void request(final Request request) {
-            registerRepository.save(request.toDomain());
-        }
-
-        public record Request(String productName, String productDescription) {
-            public Request {
-                Assert.hasText(productName, "제품 이름은 필수입니다.");
-                Assert.hasText(productDescription, "제품 설명은 필수입니다.");
-            }
-
-            public Product toDomain() {
-                return new Product(productName, productDescription);
-            }
-        }
-    }
-
-    private static class Product {
-
-        private Long productNo;
-        private final String productName;
-        private final String productDescription;
-
-        public Long getProductNo() {
-            return productNo;
-        }
-
-        public Product(final String productName,
-                       final String productDescription) {
-
-            validateConstructor(productName, productDescription);
-            this.productName = productName;
-            this.productDescription = productDescription;
-
-        }
-
-        private static void validateConstructor(final String productName, final String productDescription) {
-            Assert.hasText(productName, "제품 이름은 필수입니다.");
-            Assert.hasText(productDescription, "제품 설명은 필수입니다.");
-        }
-
-        public void assignNo(final Long productNo) {
-            this.productNo = productNo;
-        }
-    }
-
-    private class RegisterRepository {
-        private final Map<Long, Product> registerProducts = new HashMap<>();
-        private Long sequence = 1L;
-
-        public void save(final Product product) {
-            product.assignNo(sequence++);
-            registerProducts.put(product.getProductNo(), product);
-        }
     }
 }
