@@ -53,20 +53,31 @@ class RegisterProductTest {
     }
 
     private static class Product {
+
+        private Long productNo;
         private final String productName;
         private final String productDescription;
 
+        public Long getProductNo() {
+            return productNo;
+        }
+
         public Product(final String productName,
                        final String productDescription) {
+
+            validateConstructor(productName, productDescription);
             this.productName = productName;
             this.productDescription = productDescription;
 
-            validateConstructor(productName, productDescription);
         }
 
         private static void validateConstructor(final String productName, final String productDescription) {
             Assert.hasText(productName, "제품 이름은 필수입니다.");
             Assert.hasText(productDescription, "제품 설명은 필수입니다.");
+        }
+
+        public void assignNo(final Long productNo) {
+            this.productNo = productNo;
         }
     }
 
@@ -75,7 +86,7 @@ class RegisterProductTest {
         private Long sequence = 1L;
 
         public void save(final Product product) {
-
+            product.assignNo(sequence);
         }
     }
 }
