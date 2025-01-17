@@ -1,16 +1,14 @@
 package io.practice.tdd.product.domain;
 
+import lombok.Getter;
 import org.springframework.util.Assert;
 
 public class Product {
 
+    @Getter
     private Long productNo;
     private final String productName;
     private final String productDescription;
-
-    public Long getProductNo() {
-        return productNo;
-    }
 
     public Product(final String productName,
                    final String productDescription) {
