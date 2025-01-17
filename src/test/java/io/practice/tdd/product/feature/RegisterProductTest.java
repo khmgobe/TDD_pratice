@@ -2,7 +2,7 @@ package io.practice.tdd.product.feature;
 
 import io.practice.tdd.common.ApiTest;
 import io.practice.tdd.common.Scenario;
-import io.practice.tdd.product.domain.ProductRepository;
+import io.practice.tdd.product.infrastructure.ProductRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
