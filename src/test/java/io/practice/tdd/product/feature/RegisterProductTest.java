@@ -82,11 +82,12 @@ class RegisterProductTest {
     }
 
     private class RegisterRepository {
-        private final Map<Long, RegisterProduct> registerProducts = new HashMap<>();
+        private final Map<Long, Product> registerProducts = new HashMap<>();
         private Long sequence = 1L;
 
         public void save(final Product product) {
-            product.assignNo(sequence);
+            product.assignNo(sequence++);
+            registerProducts.put(product.getProductNo(), product);
         }
     }
 }
