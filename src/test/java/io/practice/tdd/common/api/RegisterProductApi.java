@@ -8,8 +8,19 @@ import org.springframework.http.HttpStatus;
 
 public class RegisterProductApi {
 
-    final String productName = "productName";
-    final String productDescription = "productDescription";
+    String productName = "productName";
+    String productDescription = "productDescription";
+
+    public RegisterProductApi productName(final String productName) {
+        this.productName = productName;
+        return this;
+    }
+
+    public RegisterProductApi productDescription(final String productDescription) {
+        this.productDescription = productDescription;
+        return this;
+    }
+
 
     public Scenario request() {
         RegisterProduct.Request request = new RegisterProduct.Request(productName, productDescription);
