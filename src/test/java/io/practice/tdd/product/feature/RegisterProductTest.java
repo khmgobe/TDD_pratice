@@ -11,7 +11,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class RegisterProductTest extends ApiTest {
 
-
     @Autowired
     private ProductRepository productRepository;
 

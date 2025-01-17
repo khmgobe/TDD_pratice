@@ -38,7 +38,10 @@ public class RegisterProduct {
         }
 
         public Product toDomain() {
-            return new Product(productName, productDescription);
+            return Product.builder()
+                    .productName(productName)
+                    .productDescription(productDescription)
+                    .build();
         }
     }
 }
