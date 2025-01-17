@@ -1,14 +1,25 @@
 package io.practice.tdd.product.domain;
 
+import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Comment;
 import org.springframework.util.Assert;
 
+@Entity
+@Table(name = "products")
+@Comment("프로덕트 테이블")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Product {
 
-    @Getter
+    @Id
+    @Getter(AccessLevel.PROTECTED)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "product_no", nullable = false)
     private Long productNo;
-    private final String productName;
-    private final String productDescription;
+    private String productName;
+    private String productDescription;
 
     public Product(final String productName,
                    final String productDescription) {

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-class RegisterProduct {
+public class RegisterProduct {
 
     private final ProductRepository productRepository;
 
