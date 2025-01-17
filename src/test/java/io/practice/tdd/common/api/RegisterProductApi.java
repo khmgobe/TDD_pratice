@@ -11,21 +11,9 @@ public class RegisterProductApi {
     String productName = "productName";
     String productDescription = "productDescription";
 
-    public RegisterProductApi productName(final String productName) {
-        this.productName = productName;
-        return this;
-    }
-
-    public RegisterProductApi productDescription(final String productDescription) {
-        this.productDescription = productDescription;
-        return this;
-    }
-
-
     public Scenario request() {
         RegisterProductRequest request = new RegisterProductRequest(productName, productDescription);
 
-        /** RestAssured -> given (log() & all(), when (post() 등, then(log() & all() & HttpStatusCode) 등으로 나눌 수 있다.) **/
         RestAssured
                 .given().log().all()
                 .body(request)
