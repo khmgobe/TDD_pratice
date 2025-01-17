@@ -10,6 +10,10 @@ class RegisterProduct {
     private String productDescription = "productDescription";
     private ProductRepository productRepository;
 
+    public RegisterProduct(final ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
+
     public void request(final Request request) {
         productRepository.save(request.toDomain());
     }
