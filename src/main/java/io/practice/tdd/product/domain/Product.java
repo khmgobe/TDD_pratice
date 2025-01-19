@@ -12,7 +12,7 @@ import org.springframework.util.Assert;
 @Entity
 @Table(name = "products")
 @Comment("프로덕트 테이블")
-@Getter(AccessLevel.PROTECTED)
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Product {
 

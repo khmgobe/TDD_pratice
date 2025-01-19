@@ -2,9 +2,12 @@ package io.practice.tdd.product.feature;
 
 import io.practice.tdd.product.domain.Product;
 import io.practice.tdd.product.dto.request.UpdateProductRequest;
-import io.practice.tdd.product.infrastructure.ProductRepository;
+import io.practice.tdd.product.feature.port.ProductPort;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,12 +15,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 class UpdateProduct {
-    private final ProductRepository productRepository;
+    private final ProductPort productPort;
 
-    public void update(@PathVariable final Long productId, @Valid @RequestBody final UpdateProductRequest request) {
+    @Transactional
+    @PatchMapping("/products/{productId}")
+    public ResponseEntity<Void> update(@PathVariable final Long productId, @Valid @RequestBody final UpdateProductRequest request) {
 
-        final Product product = productRepository.findById(productId).orElseThrow(() -> new IllegalArgumentException("상품이 존재하지 않습니다."));
+        final Product product = productPort.getProduct(productId);
         product.update(request.productName(), request.productDescription());
-        productRepository.save(product);
+        return ResponseEntity.ok().build();
     }
 }
