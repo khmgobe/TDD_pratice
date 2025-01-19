@@ -1,5 +1,6 @@
 package io.practice.tdd.product.domain;
 
+import io.practice.tdd.product.dto.response.GetProductResponse;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -11,11 +12,11 @@ import org.springframework.util.Assert;
 @Entity
 @Table(name = "products")
 @Comment("프로덕트 테이블")
+@Getter(AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Product {
 
     @Id
-    @Getter(AccessLevel.PROTECTED)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_no", nullable = false)
     private Long productNo;
@@ -48,7 +49,8 @@ public class Product {
         Assert.hasText(productDescription, "상품명은 필수입니다.");
     }
 
-    public void toProductResponse(final Product product) {
-
+    public GetProductResponse toProductResponse(final Product product) {
+        final GetProductResponse response = new GetProductResponse(product.getProductNo(), product.getProductName(), product.getProductDescription());
+        return response;
     }
 }
