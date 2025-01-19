@@ -27,6 +27,7 @@ class UpdateProductTest extends ApiTest {
         UpdateProductRequest request = new UpdateProductRequest(productName, productDescription);
 
         UpdateProduct updateProduct = new UpdateProduct();
+        updateProduct.update(productId, request);
 
     }
 
@@ -39,5 +40,8 @@ class UpdateProductTest extends ApiTest {
     }
 
     private class UpdateProduct {
+        public void update(final Long productId, final UpdateProductRequest request) {
+
+        }
     }
 }
