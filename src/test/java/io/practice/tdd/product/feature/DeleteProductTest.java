@@ -17,13 +17,6 @@ class DeleteProductTest extends ApiTest {
     @Autowired
     private ProductPort productPort;
 
-    /**
-     * 1. 상품을 저장한다. [O]
-     * 2. 상품을 삭제한다. [O]
-     * 3. 정상적으로 삭제되었는지 확인한다. [O]
-     * 4. Api 테스트로 변경 후 시나리오 동작을 확인한다. [O]
-     */
-
     @Test
     @DisplayName("상품을 삭제한다.")
     void deleteProduct()  {
