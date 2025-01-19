@@ -19,7 +19,10 @@ class UpdateProductTest {
          */
         Scenario.registerProduct().request();
 
-        UpdateProductRequest updateProductRequest = new UpdateProductRequest("productName", "productDescription");
+        final String productName = "변경한 상품 이름";
+        final String productDescription = "변경한 상품 설명";
+
+        UpdateProductRequest updateProductRequest = new UpdateProductRequest(productName, productDescription);
 
     }
 
