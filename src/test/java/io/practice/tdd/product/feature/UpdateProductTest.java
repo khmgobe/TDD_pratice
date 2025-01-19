@@ -54,6 +54,7 @@ class UpdateProductTest extends ApiTest {
 
         public void update(final Long productId, final UpdateProductRequest request) {
             final Product product = productRepository.findById(productId).orElseThrow(() -> new IllegalArgumentException("상품이 존재하지 않습니다."));
+            product.update(request.productName, request.productDescription);
         }
     }
 }
