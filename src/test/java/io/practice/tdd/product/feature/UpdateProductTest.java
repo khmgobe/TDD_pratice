@@ -28,14 +28,11 @@ class UpdateProductTest extends ApiTest {
          */
         Scenario.registerProduct().request();
 
-        final Long productId = 1L;
-        final String productName = "변경한 상품 이름";
-        final String productDescription = "변경한 상품 설명";
+        Scenario.updateProduct().request();
 
-        UpdateProduct.UpdateProductRequest request = new UpdateProduct.UpdateProductRequest(productName, productDescription);
+        final Long productId = 1L;
 
         UpdateProduct updateProduct = new UpdateProduct(productRepository);
-        updateProduct.update(productId, request);
 
         final Product product = productRepository.findById(productId).orElseThrow();
 
