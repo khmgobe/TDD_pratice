@@ -2,11 +2,16 @@ package io.practice.tdd.product.feature;
 
 import io.practice.tdd.common.ApiTest;
 import io.practice.tdd.common.Scenario;
+import io.practice.tdd.product.infrastructure.ProductRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 
 class UpdateProductTest extends ApiTest {
+
+    @Autowired
+    private ProductRepository productRepository;
 
     @Test
     @DisplayName("상품을 수정한다.")
