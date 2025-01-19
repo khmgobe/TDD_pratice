@@ -47,4 +47,8 @@ public class Product {
         Assert.hasText(productName, "상품명은 필수입니다.");
         Assert.hasText(productDescription, "상품명은 필수입니다.");
     }
+
+    public void toProductResponse(final Product product) {
+
+    }
 }

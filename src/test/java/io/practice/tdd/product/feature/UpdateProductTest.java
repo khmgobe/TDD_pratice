@@ -35,6 +35,9 @@ class UpdateProductTest extends ApiTest {
         UpdateProduct updateProduct = new UpdateProduct(productRepository);
         updateProduct.update(productId, request);
 
+        final Product product = productRepository.findById(productId).orElseThrow();
+        product.toProductResponse(product);
+
     }
 
     private record UpdateProductRequest(String productName, String productDescription) {
