@@ -3,6 +3,7 @@ package io.practice.tdd.product.feature;
 import io.practice.tdd.common.Scenario;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.util.Assert;
 
 class UpdateProductTest {
 
@@ -23,5 +24,10 @@ class UpdateProductTest {
     }
 
     private record UpdateProductRequest(String productName, String productDescription) {
+
+        UpdateProductRequest{
+            Assert.hasText(productName, "상품명은 필수입니다.");
+            Assert.hasText(productDescription, "상품명은 필수입니다.");
+        }
     }
 }
