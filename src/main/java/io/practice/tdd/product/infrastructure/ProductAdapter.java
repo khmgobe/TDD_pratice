@@ -18,4 +18,9 @@ public class ProductAdapter implements ProductPort {
         return productRepository.findById(productId)
                 .orElseThrow(() -> new IllegalArgumentException("상품이 존재하지 않습니다."));
     }
+
+    @Override
+    public void deleteById(final Long productId) {
+        productRepository.deleteById(productId);
+    }
 }
