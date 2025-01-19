@@ -7,7 +7,6 @@ import io.practice.tdd.product.infrastructure.ProductRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.Assert;
 
 class UpdateProductTest extends ApiTest {
 
@@ -30,7 +29,7 @@ class UpdateProductTest extends ApiTest {
         final String productName = "변경한 상품 이름";
         final String productDescription = "변경한 상품 설명";
 
-        UpdateProductRequest request = new UpdateProductRequest(productName, productDescription);
+        UpdateProduct.UpdateProductRequest request = new UpdateProduct.UpdateProductRequest(productName, productDescription);
 
         UpdateProduct updateProduct = new UpdateProduct(productRepository);
         updateProduct.update(productId, request);
@@ -40,24 +39,4 @@ class UpdateProductTest extends ApiTest {
 
     }
 
-    private record UpdateProductRequest(String productName, String productDescription) {
-
-        UpdateProductRequest{
-            Assert.hasText(productName, "상품명은 필수입니다.");
-            Assert.hasText(productDescription, "상품명은 필수입니다.");
-        }
-    }
-
-    private class UpdateProduct {
-        private final ProductRepository productRepository;
-
-        private UpdateProduct(final ProductRepository productRepository) {
-            this.productRepository = productRepository;
-        }
-
-        public void update(final Long productId, final UpdateProductRequest request) {
-            final Product product = productRepository.findById(productId).orElseThrow(() -> new IllegalArgumentException("상품이 존재하지 않습니다."));
-            product.update(request.productName, request.productDescription);
-        }
-    }
 }
