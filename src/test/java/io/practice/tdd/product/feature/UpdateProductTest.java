@@ -2,6 +2,7 @@ package io.practice.tdd.product.feature;
 
 import io.practice.tdd.common.ApiTest;
 import io.practice.tdd.common.Scenario;
+import io.practice.tdd.product.domain.Product;
 import io.practice.tdd.product.infrastructure.ProductRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -31,7 +32,7 @@ class UpdateProductTest extends ApiTest {
 
         UpdateProductRequest request = new UpdateProductRequest(productName, productDescription);
 
-        UpdateProduct updateProduct = new UpdateProduct();
+        UpdateProduct updateProduct = new UpdateProduct(productRepository);
         updateProduct.update(productId, request);
 
     }
@@ -45,8 +46,14 @@ class UpdateProductTest extends ApiTest {
     }
 
     private class UpdateProduct {
-        public void update(final Long productId, final UpdateProductRequest request) {
+        private final ProductRepository productRepository;
 
+        private UpdateProduct(final ProductRepository productRepository) {
+            this.productRepository = productRepository;
+        }
+
+        public void update(final Long productId, final UpdateProductRequest request) {
+            final Product product = productRepository.findById(productId).orElseThrow(() -> new IllegalArgumentException("상품이 존재하지 않습니다."));
         }
     }
 }
