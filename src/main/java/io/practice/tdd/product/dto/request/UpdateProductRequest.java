@@ -1,11 +1,14 @@
 package io.practice.tdd.product.dto.request;
 
+import lombok.Builder;
 import org.springframework.util.Assert;
 
-public record UpdateProductRequest(String productName, String productDescription) {
+@Builder
+public record UpdateProductRequest(String productName, String productDescription, Long productPrice) {
 
     public UpdateProductRequest {
-        Assert.hasText(productName, "상품명은 필수입니다.");
-        Assert.hasText(productDescription, "상품명은 필수입니다.");
+        Assert.hasText(productName, "제품명은 필수입니다.");
+        Assert.hasText(productDescription, "제품명은 필수입니다.");
+        Assert.notNull(productPrice,"제품 가격은 필수입니다." );
     }
 }
