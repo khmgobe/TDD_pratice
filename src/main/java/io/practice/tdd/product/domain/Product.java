@@ -1,5 +1,6 @@
 package io.practice.tdd.product.domain;
 
+import io.practice.tdd.product.domain.enumeration.DiscountPolicy;
 import io.practice.tdd.product.dto.response.GetProductResponse;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -51,19 +52,24 @@ public class Product {
     @Column(name = "update_at", nullable = false)
     private LocalDateTime updateAt;
 
+    @Enumerated(EnumType.STRING)
+    private DiscountPolicy discountPolicy;
+
     @Builder
     private Product(final String productName,
                     final String productDescription,
-                    final Long productPrice) {
+                    final Long productPrice,
+                    final DiscountPolicy discountPolicy) {
 
-        validateConstructor(productName, productDescription, productPrice);
+        validateConstructor(productName, productDescription, productPrice, discountPolicy);
         this.productName = productName;
         this.productDescription = productDescription;
         this.productPrice = productPrice;
+        this.discountPolicy = discountPolicy;
 
     }
 
-    private void validateConstructor(final String productName, final String productDescription, final Long productPrice) {
+    private void validateConstructor(final String productName, final String productDescription, final Long productPrice, final DiscountPolicy discountPolicy) {
         Assert.hasText(productName, "제품 이름은 필수입니다.");
         Assert.hasText(productDescription, "제품 설명은 필수입니다.");
         Assert.notNull(productPrice, "제품의 가격은 필수입니다.");
