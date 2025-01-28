@@ -8,6 +8,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.Assert;
 
+import java.time.LocalDateTime;
+
 class RegisterOrderTest {
 
 
@@ -46,6 +48,42 @@ class RegisterOrderTest {
             Assert.notNull(id, "아이디는 필수입니다.");
             Assert.notNull(product, "상품은 필수입니다.");
             Assert.notNull(quantity, "수량은 필수입니다.");
+        }
+    }
+
+    private class Order {
+
+        final Long id;
+        final Product product;
+        final int quantity;
+        final LocalDateTime createAt;
+        final LocalDateTime cancelAt;
+
+        public Order(
+                final Long id,
+                final Product product,
+                final int quantity,
+                final LocalDateTime createAt,
+                final LocalDateTime cancelAt) {
+
+            this.id = id;
+            this.product = product;
+            this.quantity = quantity;
+            this.createAt = createAt;
+            this.cancelAt = cancelAt;
+
+            validateConstructor(id, product, createAt, cancelAt);
+        }
+
+        private void validateConstructor(final Long id,
+                                         final Product product,
+                                         final LocalDateTime createAt,
+                                         final LocalDateTime cancelAt) {
+
+            Assert.notNull(id, "아이디는 필수입니다.");
+            Assert.notNull(product, "상품은 필수입니다.");
+            Assert.notNull(createAt, "생성 일자는 필수입니다.");
+            Assert.notNull(cancelAt, "취소 일자는 필수입니다.");
         }
     }
 }
