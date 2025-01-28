@@ -22,7 +22,14 @@ class UpdateProduct {
     public ResponseEntity<Void> update(@PathVariable final Long productId, @Valid @RequestBody final UpdateProductRequest request) {
 
         final Product product = productPort.getProduct(productId);
-        product.update(request.productName(), request.productDescription(), request.productPrice());
+
+        product.update(
+                request.productName(),
+                request.productDescription(),
+                request.productPrice(),
+                request.productQuantity(),
+                request.discountPolicy());
+
         return ResponseEntity.ok().build();
     }
 }
