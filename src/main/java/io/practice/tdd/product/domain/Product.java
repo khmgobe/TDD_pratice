@@ -38,10 +38,6 @@ public class Product {
     @Column(name = "product_price", nullable = false)
     private Long productPrice;
 
-    @Comment("제품 할인율")
-    @Column(name = "product_discount")
-    private Integer productDiscount;
-
     @CreatedDate
     @Comment("제품 생성시간")
     @Column(name = "create_at", nullable = false)
@@ -53,6 +49,7 @@ public class Product {
     private LocalDateTime updateAt;
 
     @Enumerated(EnumType.STRING)
+    @Comment("할인 정책")
     private DiscountPolicy discountPolicy;
 
     @Builder
@@ -69,11 +66,15 @@ public class Product {
 
     }
 
+    public Long getDiscountedPrice() {
+        return discountPolicy.apply(productPrice);
+    }
+
     private void validateConstructor(final String productName, final String productDescription, final Long productPrice, final DiscountPolicy discountPolicy) {
         Assert.hasText(productName, "제품 이름은 필수입니다.");
         Assert.hasText(productDescription, "제품 설명은 필수입니다.");
         Assert.notNull(productPrice, "제품의 가격은 필수입니다.");
-
+        Assert.notNull(discountPolicy, "할인 정책은 필수입니다.");
         validateProductPrice(productPrice);
 
     }
