@@ -38,6 +38,14 @@ public class Product {
     @Column(name = "product_price", nullable = false)
     private Long productPrice;
 
+    @Comment("제품 수량")
+    @Column(name = "product_quantity", nullable = false)
+    private Integer productQuantity;
+
+    @Enumerated(EnumType.STRING)
+    @Comment("할인 정책")
+    private DiscountPolicy discountPolicy;
+
     @CreatedDate
     @Comment("제품 생성시간")
     @Column(name = "create_at", nullable = false)
@@ -48,20 +56,20 @@ public class Product {
     @Column(name = "update_at", nullable = false)
     private LocalDateTime updateAt;
 
-    @Enumerated(EnumType.STRING)
-    @Comment("할인 정책")
-    private DiscountPolicy discountPolicy;
 
     @Builder
     private Product(final String productName,
                     final String productDescription,
                     final Long productPrice,
+                    final Integer productQuantity,
                     final DiscountPolicy discountPolicy) {
 
-        validateConstructor(productName, productDescription, productPrice, discountPolicy);
+        validateConstructor(productName, productDescription, productPrice, productQuantity, discountPolicy);
+
         this.productName = productName;
         this.productDescription = productDescription;
         this.productPrice = productPrice;
+        this.productQuantity = productQuantity;
         this.discountPolicy = discountPolicy;
 
     }
@@ -70,28 +78,50 @@ public class Product {
         return discountPolicy.apply(productPrice);
     }
 
-    private void validateConstructor(final String productName, final String productDescription, final Long productPrice, final DiscountPolicy discountPolicy) {
+    private void validateConstructor(
+            final String productName,
+            final String productDescription,
+            final Long productPrice,
+            final Integer productQuantity,
+            final DiscountPolicy discountPolicy) {
+
         Assert.hasText(productName, "제품 이름은 필수입니다.");
         Assert.hasText(productDescription, "제품 설명은 필수입니다.");
         Assert.notNull(productPrice, "제품의 가격은 필수입니다.");
+        Assert.notNull(productQuantity, "제품 수량은 필수입니다.");
         Assert.notNull(discountPolicy, "할인 정책은 필수입니다.");
+
         validateProductPrice(productPrice);
+        validateProductQuantity(productQuantity);
 
     }
 
-    private static void validateProductPrice(final Long productPrice) {
-        if (0 > productPrice) {
+    private void validateProductQuantity(final Integer productQuantity) {
+        if (0 >= productQuantity) {
+            throw new IllegalArgumentException("제품의 수량은 1개 이상이어야 합니다.");
+        }
+    }
+
+    private void validateProductPrice(final Long productPrice) {
+        if (0 >= productPrice) {
             throw new IllegalArgumentException("제품의 가격은 1원 이상이어야 합니다.");
         }
     }
 
-    public void update(final String productName, final String productDescription, final Long productPrice) {
+    public void update(final String productName,
+                       final String productDescription,
+                       final Long productPrice,
+                       final Integer productQuantity,
+                       final DiscountPolicy discountPolicy) {
+
         this.productName = productName;
         this.productDescription = productDescription;
         this.productPrice = productPrice;
-        Assert.hasText(productName, "제품명은 필수입니다.");
-        Assert.hasText(productDescription, "제품명은 필수입니다.");
-        Assert.notNull(productPrice, "제품 가격");
+        this.productQuantity = productQuantity;
+        this.discountPolicy = discountPolicy;
+
+        validateConstructor(productName, productDescription, productPrice, productQuantity, discountPolicy);
+
     }
 
     public GetProductResponse toProductResponse(final Product product) {
@@ -101,6 +131,8 @@ public class Product {
                 product.getProductName(),
                 product.getProductDescription(),
                 product.getProductPrice(),
+                product.getProductQuantity(),
+                product.getDiscountPolicy(),
                 product.getCreateAt(),
                 product.getUpdateAt());
 
