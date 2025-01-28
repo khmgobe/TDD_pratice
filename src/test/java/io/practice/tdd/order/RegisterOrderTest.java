@@ -26,16 +26,23 @@ class RegisterOrderTest {
         final Product product = ProductSteps.productBuilder();
         final int quantity = 5;
 
-        Request request = new Request(id, product, quantity);
+        RegisterOrderRequest orderRequest = new RegisterOrderRequest(id, product, quantity);
+
+        registerOrder.register(orderRequest);
     }
 
     private class RegisterOrder {
+
+
+        public void register(final RegisterOrderRequest request) {
+
+        }
     }
 
-    private record Request(Long id,
-                           Product product,
-                           Integer quantity) {
-        public Request {
+    private record RegisterOrderRequest(Long id,
+                                        Product product,
+                                        Integer quantity) {
+        public RegisterOrderRequest {
             Assert.notNull(id, "아이디는 필수입니다.");
             Assert.notNull(product, "상품은 필수입니다.");
             Assert.notNull(quantity, "수량은 필수입니다.");
