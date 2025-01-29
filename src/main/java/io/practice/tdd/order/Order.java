@@ -1,13 +1,26 @@
 package io.practice.tdd.order;
 
 import io.practice.tdd.product.domain.Product;
+import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.util.Assert;
 
+@Entity
+@Getter
+@Table(name = "orders")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 class Order {
 
-    Long id;
-    final Product product;
-    final int quantity;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @OneToOne
+    private Product product;
+
+    private int quantity;
 
     public Order(
             final Product product,
@@ -25,13 +38,5 @@ class Order {
 
         Assert.notNull(product, "상품은 필수입니다.");
         Assert.notNull(quantity, "수량은 필수입니다.");
-    }
-
-    public void assignId(final Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
     }
 }
