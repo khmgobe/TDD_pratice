@@ -1,6 +1,8 @@
 package io.practice.tdd.order;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 class OrderRepository {
@@ -11,5 +13,9 @@ class OrderRepository {
     public void save(final Order order) {
         order.assignId(sequence++);
         orderMap.put(order.getId(), order);
+    }
+
+    public List<Order> findAll() {
+        return new ArrayList<>(orderMap.values());
     }
 }
