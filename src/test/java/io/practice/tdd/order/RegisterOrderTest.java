@@ -2,6 +2,7 @@ package io.practice.tdd.order;
 
 
 import io.practice.tdd.common.ApiTest;
+import io.practice.tdd.common.Scenario;
 import io.practice.tdd.product.domain.Product;
 import io.practice.tdd.product.util.ProductSteps;
 import io.restassured.RestAssured;
@@ -23,20 +24,27 @@ class RegisterOrderTest extends ApiTest {
     @DisplayName("상품의 데이터로 주문을 등록한다.")
     void registerOrder() {
 
-        final Long id = 1L;
+        Scenario.registerProduct().request();
+
+        final Long productId = 1L;
         final Product product = ProductSteps.productBuilder();
         final int quantity = 5;
 
-        RegisterOrderRequest request = new RegisterOrderRequest(product, quantity);
+        RegisterOrderRequest request = new RegisterOrderRequest(quantity);
 
-        final ValidatableResponse response = RestAssured.given().log().all()
-                .contentType(ContentType.JSON)
-                .body(request)
-                .when()
-                .post("/orders")
-                .then()
-                .log().all()
-                .statusCode(HttpStatus.CREATED.value());
+        final ValidatableResponse response =
+                RestAssured.given()
+                        .log()
+                        .all()
+                        .when()
+                        .body(request)
+                        .contentType(ContentType.JSON)
+                        .when()
+                        .post("/orders/{productId}", productId)
+                        .then()
+                        .log()
+                        .all()
+                        .statusCode(HttpStatus.CREATED.value());
 
         assertThat(orderRepository.findAll()).hasSize(1);
 

@@ -48,12 +48,12 @@ public class Product {
 
     @CreatedDate
     @Comment("제품 생성시간")
-    @Column(name = "create_at", nullable = false)
+    @Column(name = "create_at", updatable = false)
     private LocalDateTime createAt;
 
     @LastModifiedDate
     @Comment("제품 수정시간")
-    @Column(name = "update_at", nullable = false)
+    @Column(name = "update_at")
     private LocalDateTime updateAt;
 
 
