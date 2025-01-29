@@ -1,8 +1,9 @@
-package io.practice.tdd.order;
+package io.practice.tdd.order.feature;
 
 
 import io.practice.tdd.common.ApiTest;
 import io.practice.tdd.common.Scenario;
+import io.practice.tdd.order.out.persistence.OrderRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

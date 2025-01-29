@@ -1,7 +1,7 @@
 package io.practice.tdd.common.api;
 
 import io.practice.tdd.common.Scenario;
-import io.practice.tdd.order.RegisterOrderRequest;
+import io.practice.tdd.order.in.web.dto.request.RegisterOrderRequest;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;

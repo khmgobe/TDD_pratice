@@ -1,7 +1,7 @@
-package io.practice.tdd.order;
+package io.practice.tdd.order.in.web;
 
-import io.practice.tdd.product.domain.Product;
-import io.practice.tdd.product.infrastructure.ProductRepository;
+import io.practice.tdd.order.application.RegisterOrderService;
+import io.practice.tdd.order.in.web.dto.request.RegisterOrderRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,20 +14,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class RegisterOrder {
+public class OrderController {
 
-    private final OrderRepository orderRepository;
-    private final ProductRepository productRepository;
+    private final RegisterOrderService registerOrderService;
 
     @Transactional
     @PostMapping("/orders/{productId}")
-    public ResponseEntity<Void> register(@RequestBody @Valid final RegisterOrderRequest request, @PathVariable final Long productId) {
+    public ResponseEntity<Void> register(
+            @PathVariable final Long productId,
+            @RequestBody @Valid final RegisterOrderRequest request) {
 
-        final Product product = productRepository.getBy(productId);
-
-        final Order order = request.toDomain(product, request.quantity());
-
-        orderRepository.save(order);
+        registerOrderService.register(productId, request);
 
         return ResponseEntity.status(HttpStatus.CREATED.value()).build();
     }

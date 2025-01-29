@@ -1,5 +1,6 @@
-package io.practice.tdd.order;
+package io.practice.tdd.order.in.web.dto.request;
 
+import io.practice.tdd.order.domain.Order;
 import io.practice.tdd.product.domain.Product;
 import org.springframework.util.Assert;
 
