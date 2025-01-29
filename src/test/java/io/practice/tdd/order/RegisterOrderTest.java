@@ -9,15 +9,19 @@ import org.junit.jupiter.api.Test;
 import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 class RegisterOrderTest {
 
 
     private RegisterOrder registerOrder;
+    private OrderRepository orderRepository;
 
     @BeforeEach
     void setUp() {
-        registerOrder = new RegisterOrder();
+        orderRepository = new OrderRepository();
+        registerOrder = new RegisterOrder(orderRepository);
     }
 
     @Test
@@ -35,6 +39,11 @@ class RegisterOrderTest {
 
     private class RegisterOrder {
 
+        private final OrderRepository orderRepository;
+
+        private RegisterOrder(final OrderRepository orderRepository) {
+            this.orderRepository = orderRepository;
+        }
 
         public void register(final RegisterOrderRequest request) {
 
@@ -44,6 +53,7 @@ class RegisterOrderTest {
     private record RegisterOrderRequest(Long id,
                                         Product product,
                                         Integer quantity) {
+
         public RegisterOrderRequest {
             Assert.notNull(id, "아이디는 필수입니다.");
             Assert.notNull(product, "상품은 필수입니다.");
@@ -53,7 +63,7 @@ class RegisterOrderTest {
 
     private class Order {
 
-        final Long id;
+        Long id;
         final Product product;
         final int quantity;
         final LocalDateTime createAt;
@@ -72,18 +82,39 @@ class RegisterOrderTest {
             this.createAt = createAt;
             this.cancelAt = cancelAt;
 
-            validateConstructor(id, product, createAt, cancelAt);
+            validateConstructor(id, product, quantity, createAt, cancelAt);
         }
 
         private void validateConstructor(final Long id,
                                          final Product product,
+                                         final int quantity,
                                          final LocalDateTime createAt,
                                          final LocalDateTime cancelAt) {
 
             Assert.notNull(id, "아이디는 필수입니다.");
             Assert.notNull(product, "상품은 필수입니다.");
+            Assert.notNull(quantity, "수량은 필수입니다.");
             Assert.notNull(createAt, "생성 일자는 필수입니다.");
             Assert.notNull(cancelAt, "취소 일자는 필수입니다.");
+        }
+
+        public void assignId(final Long id) {
+            this.id = id;
+        }
+
+        public Long getId() {
+            return id;
+        }
+    }
+
+    private class OrderRepository {
+
+        private final Map<Long, Order> orderMap = new HashMap<>();
+        private Long sequence = 1L;
+
+        public void save(final Order order) {
+            order.assignId(sequence++);
+            orderMap.put(order.getId(), order);
         }
     }
 }
