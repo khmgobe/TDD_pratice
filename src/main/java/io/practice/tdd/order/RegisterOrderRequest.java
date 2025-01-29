@@ -3,7 +3,7 @@ package io.practice.tdd.order;
 import io.practice.tdd.product.domain.Product;
 import org.springframework.util.Assert;
 
-record RegisterOrderRequest(
+public record RegisterOrderRequest(
         Integer quantity) {
 
     public RegisterOrderRequest {

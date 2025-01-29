@@ -1,6 +1,7 @@
 package io.practice.tdd.common;
 
 import io.practice.tdd.common.api.DeleteProductApi;
+import io.practice.tdd.common.api.RegisterOrderApi;
 import io.practice.tdd.common.api.RegisterProductApi;
 import io.practice.tdd.common.api.UpdateProductApi;
 
@@ -16,5 +17,9 @@ public class Scenario {
 
     public static DeleteProductApi deleteProduct() {
         return new DeleteProductApi();
+    }
+
+    public static RegisterOrderApi registerOrder() {
+        return new RegisterOrderApi();
     }
 }
