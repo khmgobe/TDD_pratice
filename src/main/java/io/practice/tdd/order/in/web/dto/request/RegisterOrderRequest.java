@@ -24,5 +24,5 @@ public record RegisterOrderRequest(
                 .quantity(quantity)
                 .orderStatus(orderStatus)
                 .build();
-    }
+}
 }
