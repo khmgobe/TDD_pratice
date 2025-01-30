@@ -21,7 +21,7 @@ public class RegisterOrderService {
 
         final Product product = productPort.getProduct(productId);
 
-        final Order order = request.toDomain(product, request.quantity());
+        final Order order = request.toDomain(product);
 
         orderPort.save(order);
     }
