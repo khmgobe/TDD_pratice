@@ -37,16 +37,8 @@ public class Order {
         this.quantity = quantity;
         this.orderStatus = orderStatus;
 
+
         validateConstructor(product, quantity, orderStatus);
-
-    public Order(
-            final Product product,
-            final int quantity) {
-
-        this.product = product;
-        this.quantity = quantity;
-
-        validateConstructor(product, quantity);
 
     }
 
