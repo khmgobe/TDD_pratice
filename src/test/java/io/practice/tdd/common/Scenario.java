@@ -1,9 +1,6 @@
 package io.practice.tdd.common;
 
-import io.practice.tdd.common.api.DeleteProductApi;
-import io.practice.tdd.common.api.RegisterOrderApi;
-import io.practice.tdd.common.api.RegisterProductApi;
-import io.practice.tdd.common.api.UpdateProductApi;
+import io.practice.tdd.common.api.*;
 
 public class Scenario {
 
@@ -21,5 +18,8 @@ public class Scenario {
 
     public static RegisterOrderApi registerOrder() {
         return new RegisterOrderApi();
+    }
+    public static CancelOrderApi cancelOrder() {
+        return new CancelOrderApi();
     }
 }
