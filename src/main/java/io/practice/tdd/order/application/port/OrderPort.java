@@ -9,4 +9,6 @@ public interface OrderPort {
     void save(Order order);
 
     Product getByProduct(Long productId);
+
+    void cancel(Long orderId);
 }
