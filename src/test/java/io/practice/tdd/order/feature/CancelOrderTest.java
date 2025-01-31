@@ -12,11 +12,12 @@ class CancelOrderTest extends ApiTest {
 
     @Autowired
     private OrderRepository orderRepository;
+
     private CancelOrderService cancelOrderService;
 
     @BeforeEach
     void setUp() {
-        cancelOrderService = new CancelOrderService();
+        cancelOrderService = new CancelOrderService(orderRepository);
     }
 
     @Test
@@ -35,5 +36,14 @@ class CancelOrderTest extends ApiTest {
     }
 
     private class CancelOrderService {
+
+        private final OrderRepository orderRepository;
+
+        private CancelOrderService(final OrderRepository orderRepository) {
+            this.orderRepository = orderRepository;
+        }
+
+
+
     }
 }
