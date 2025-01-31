@@ -18,7 +18,12 @@ class CancelOrderTest {
     @DisplayName("주문을 취소한다.")
     void cancelOrder()  {
         cancelOrderService.cancelOrder();
-        FakeOrder fakeOrder = new FakeOrder(1L, "orderName", "orderDescription");
+        final Long orderId = 1L;
+        final String orderName = "orderName";
+        final String orderDescription = "orderDescription";
+
+
+        FakeOrder fakeOrder = new FakeOrder(orderId, orderName, orderDescription);
     }
 
     private class CancelOrderService {
@@ -34,11 +39,11 @@ class CancelOrderTest {
 
     private class FakeOrder {
 
-        final long id;
+        final Long id;
         final String orderName;
         final String orderDescription;
 
-        public FakeOrder(final long id, final String orderName, final String orderDescription) {
+        public FakeOrder(final Long id, final String orderName, final String orderDescription) {
         this.id = id;
         this.orderName = orderName;
         this.orderDescription = orderDescription;
