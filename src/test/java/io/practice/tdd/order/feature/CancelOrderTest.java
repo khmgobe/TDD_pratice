@@ -8,6 +8,7 @@ class CancelOrderTest {
 
 
     private CancelOrderService cancelOrderService;
+    private FakeOrderRepository fakeOrderRepository;
 
     @BeforeEach
     void setUp() {
@@ -17,9 +18,16 @@ class CancelOrderTest {
     @Test
     @DisplayName("주문을 취소한다.")
     void cancelOrder()  {
-
+        cancelOrderService.cancelOrder();
     }
 
     private class CancelOrderService {
+
+        public void cancelOrder() {
+
+        }
+    }
+
+    private class FakeOrderRepository {
     }
 }
