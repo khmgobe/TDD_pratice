@@ -3,6 +3,7 @@ package io.practice.tdd.order.feature;
 import io.practice.tdd.common.ApiTest;
 import io.practice.tdd.common.Scenario;
 import io.practice.tdd.order.out.persistence.OrderRepository;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -29,9 +30,11 @@ class CancelOrderTest extends ApiTest {
         Scenario.registerProduct().request();
         Scenario.registerOrder().request();
 
-        // when:
+        // when: 주문 아이디를 기반으로 주문을 취소한다.
+        cancelOrderService.cancelOrder(orderId);
 
-
+        // then: 주문 취소가 이루어졌는지 확인한다.
+        Assertions.assertThat(orderRepository.findAll()).hasSize(1);
 
     }
 
@@ -39,11 +42,13 @@ class CancelOrderTest extends ApiTest {
 
         private final OrderRepository orderRepository;
 
+
+        public void cancelOrder(final Long orderId) {
+            orderRepository.deleteById(orderId);
+        }
+
         private CancelOrderService(final OrderRepository orderRepository) {
             this.orderRepository = orderRepository;
         }
-
-
-
     }
 }
