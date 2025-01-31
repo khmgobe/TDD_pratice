@@ -20,6 +20,11 @@ public class OrderAdapter implements OrderPort {
     }
 
     @Override
+    public void cancel(final Long orderId) {
+        orderRepository.deleteById(orderId);
+    }
+
+    @Override
     public void save(final Order order) {
         orderRepository.save(order);
     }
