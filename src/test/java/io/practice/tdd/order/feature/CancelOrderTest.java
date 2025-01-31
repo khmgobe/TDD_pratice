@@ -1,11 +1,14 @@
 package io.practice.tdd.order.feature;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.Assert;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 class CancelOrderTest {
@@ -15,22 +18,32 @@ class CancelOrderTest {
 
     @BeforeEach
     void setUp() {
-        cancelOrderService = new CancelOrderService();
+        fakeOrderRepository = new FakeOrderRepository();
+        cancelOrderService = new CancelOrderService(fakeOrderRepository);
     }
 
     @Test
-    @DisplayName("주문을 취소한다.")
+    @DisplayName("주문을 등록하고 등록한 주문을 취소한다.")
     void cancelOrder() {
-        cancelOrderService.cancelOrder();
+
         final Long orderId = 1L;
         final String orderName = "orderName";
         final String orderDescription = "orderDescription";
 
         FakeOrderRequest fakeOrderRequest = new FakeOrderRequest(orderName, orderDescription);
+
+        cancelOrderService.registerOrder(fakeOrderRequest);
+
+        Assertions.assertThat(fakeOrderRepository.findAll()).hasSize(1);
     }
 
     private class CancelOrderService {
 
+        private final FakeOrderRepository fakeOrderRepository;
+
+        public CancelOrderService(final FakeOrderRepository fakeOrderRepository) {
+            this.fakeOrderRepository = fakeOrderRepository;
+        }
 
         public void registerOrder(FakeOrderRequest fakeOrderRequest) {
             final FakeOrder domain = fakeOrderRequest.toDomain();
@@ -43,12 +56,16 @@ class CancelOrderTest {
 
     private class FakeOrderRepository {
 
-        private Map<FakeOrder, Long> fakeOrderMap = new HashMap<>();
+        private Map<Long, FakeOrder> fakeOrderMap = new HashMap<>();
         private Long sequence = 1L;
 
         public void save(final FakeOrder fakeOrder) {
             fakeOrder.assignId(sequence++);
-            fakeOrderMap.put(fakeOrder, fakeOrder.getId());
+            fakeOrderMap.put(fakeOrder.getId(), fakeOrder);
+        }
+
+        public List<FakeOrder> findAll() {
+            return new ArrayList<>(fakeOrderMap.values());
         }
     }
 
