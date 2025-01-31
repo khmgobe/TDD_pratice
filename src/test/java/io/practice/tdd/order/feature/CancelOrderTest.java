@@ -5,6 +5,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.Assert;
 
+import java.util.HashMap;
+import java.util.Map;
+
 class CancelOrderTest {
 
     private CancelOrderService cancelOrderService;
@@ -28,25 +31,44 @@ class CancelOrderTest {
 
     private class CancelOrderService {
 
-        public void cancelOrder() {
 
+        public void registerOrder(FakeOrderRequest fakeOrderRequest) {
+            final FakeOrder domain = fakeOrderRequest.toDomain();
+            fakeOrderRepository.save(domain);
+        }
+
+        public void cancelOrder() {
         }
     }
 
     private class FakeOrderRepository {
 
+        private Map<FakeOrder, Long> fakeOrderMap = new HashMap<>();
+        private Long sequence = 1L;
+
+        public void save(final FakeOrder fakeOrder) {
+            fakeOrder.assignId(sequence++);
+            fakeOrderMap.put(fakeOrder, fakeOrder.getId());
+        }
     }
 
-    private class FakeOrder {
+    private static class FakeOrder {
 
-        final Long id;
-        final String orderName;
-        final String orderDescription;
+        private Long id;
+        private final String orderName;
+        private final String orderDescription;
 
-        public FakeOrder(final Long id, final String orderName, final String orderDescription) {
-            this.id = id;
+        public FakeOrder( final String orderName, final String orderDescription) {
             this.orderName = orderName;
             this.orderDescription = orderDescription;
+        }
+
+        public void assignId(final Long id) {
+            this.id = id;
+        }
+
+        public Long getId() {
+            return id;
         }
     }
 
@@ -57,6 +79,10 @@ class CancelOrderTest {
         public FakeOrderRequest {
             Assert.notNull(orderName, "주문 이름은 필수입니다.");
             Assert.notNull(orderDescription, "주문 정보는 필수입니다.");
+        }
+
+        public FakeOrder toDomain() {
+            return new FakeOrder(orderName, orderDescription);
         }
     }
 }
