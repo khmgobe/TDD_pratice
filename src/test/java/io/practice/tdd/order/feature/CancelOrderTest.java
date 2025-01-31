@@ -34,7 +34,9 @@ class CancelOrderTest {
 
         cancelOrderService.registerOrder(fakeOrderRequest);
 
-        Assertions.assertThat(fakeOrderRepository.findAll()).hasSize(1);
+        cancelOrderService.cancelOrder(orderId);
+
+        Assertions.assertThat(fakeOrderRepository.findAll()).size().isEqualTo(0);
     }
 
     private class CancelOrderService {
@@ -50,7 +52,8 @@ class CancelOrderTest {
             fakeOrderRepository.save(domain);
         }
 
-        public void cancelOrder() {
+        public void cancelOrder(final Long orderId) {
+            fakeOrderRepository.deleteById(orderId);
         }
     }
 
@@ -66,6 +69,10 @@ class CancelOrderTest {
 
         public List<FakeOrder> findAll() {
             return new ArrayList<>(fakeOrderMap.values());
+        }
+
+        public void deleteById(final Long orderId) {
+            fakeOrderMap.remove(orderId);
         }
     }
 
